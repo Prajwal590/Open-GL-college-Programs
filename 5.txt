@@ -1,0 +1,79 @@
+#include <GL/glut.h>
+GLfloat angle = 0.0;
+void init()
+{
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0, 1.0, 1.0, 100.0);
+    glMatrixMode(GL_MODELVIEW);
+}
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0.0, 0.0, -6.0);
+    glRotatef(angle, 1.0, 1.0, 1.0);
+    glBegin(GL_QUADS);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex3f(-1.0, -1.0, 1.0);
+    glVertex3f(1.0, -1.0, 1.0);
+    glVertex3f(1.0, 1.0, 1.0);
+    glVertex3f(-1.0, 1.0, 1.0);
+
+    glColor3f(0.0, 1.0, 0.0);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glVertex3f(-1.0, 1.0, -1.0);
+    glVertex3f(1.0, 1.0, -1.0);
+    glVertex3f(1.0, -1.0, -1.0);
+
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex3f(-1.0, 1.0, -1.0);
+    glVertex3f(-1.0, 1.0, 1.0);
+    glVertex3f(1.0, 1.0, 1.0);
+    glVertex3f(1.0, 1.0, -1.0);
+
+    glColor3f(1.0, 1.0, 0.0);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glVertex3f(1.0, -1.0, -1.0);
+    glVertex3f(1.0, -1.0, 1.0);
+    glVertex3f(-1.0, -1.0, 1.0);
+
+    glColor3f(1.0, 0.0, 1.0);
+    glVertex3f(1.0, -1.0, -1.0);
+    glVertex3f(1.0, 1.0, -1.0);
+    glVertex3f(1.0, 1.0, 1.0);
+    glVertex3f(1.0, -1.0, 1.0);
+    
+    glColor3f(0.0, 1.0, 1.0);
+    glVertex3f(-1.0, -1.0, -1.0);
+    glVertex3f(-1.0, -1.0, 1.0);
+    glVertex3f(-1.0, 1.0, 1.0);
+    glVertex3f(-1.0, 1.0, -1.0);
+    glEnd();
+    glutSwapBuffers();
+}
+void reshape(int w, int h)
+{
+    glViewport(0, 0, w, h);
+}
+void timer(int)
+{
+    angle += 2.0;
+    glutPostRedisplay();
+    glutTimerFunc(1000/60, timer, 0);
+}
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("3D Transformations");
+    init();
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+    glutTimerFunc(0, timer, 0);
+    glEnable(GL_DEPTH_TEST);
+    glutMainLoop();
+    return 0;
+}

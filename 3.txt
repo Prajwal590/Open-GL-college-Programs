@@ -1,0 +1,122 @@
+#include <GL/glut.h>
+GLfloat angleX = 0.0f; 
+GLfloat angleY = 0.0f; 
+GLfloat scale = 1.0f;   
+void init()
+{
+    glEnable(GL_DEPTH_TEST); 
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
+}
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+    glLoadIdentity(); 
+    glTranslatef(0.0f, 0.0f, -5.0f); 
+    glRotatef(angleX, 1.0f, 0.0f, 0.0f); 
+    glRotatef(angleY, 0.0f, 1.0f, 0.0f); 
+    glScalef(scale, scale, scale); 
+    glBegin(GL_QUADS); 
+    glColor3f(1.0f, 0.0f, 0.0f); 
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+
+    glColor3f(0.0f, 1.0f, 0.0f); 
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+  
+    glColor3f(0.0f, 0.0f, 1.0f); 
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+   
+    glColor3f(1.0f, 1.0f, 0.0f); 
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    
+    glColor3f(1.0f, 0.0f, 1.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+   
+    glColor3f(0.0f, 1.0f, 1.0f); 
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glEnd(); 
+    glFlush(); 
+    glutSwapBuffers(); 
+}
+
+void reshape(int width, int height)
+{
+    if (height == 0)
+        height = 1; 
+    glViewport(0, 0, width, height); 
+    glMatrixMode(GL_PROJECTION); 
+    glLoadIdentity(); 
+    gluPerspective(45.0f, (GLfloat)width / (GLfloat)height, 0.1f, 100.0f); 
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity(); 
+}
+
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'q': 
+        exit(0); 
+        break;
+    case '+':
+        scale += 0.1f; 
+        break;
+    case '-':
+        scale -= 0.1f; 
+        if (scale < 0.1f)
+            scale = 0.1f; 
+        break;
+    }
+    glutPostRedisplay(); 
+}
+void specialKeys(int key, int x, int y)
+{
+    switch (key)
+    {
+    case GLUT_KEY_UP:
+        angleX += 5.0f; 
+        break;
+    case GLUT_KEY_DOWN:
+        angleX -= 5.0f; 
+        break;
+    case GLUT_KEY_LEFT:
+        angleY -= 5.0f; 
+        break;
+    case GLUT_KEY_RIGHT:
+        angleY += 5.0f; 
+        break;
+    }
+    glutPostRedisplay(); 
+}
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv); 
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH); 
+    glutInitWindowSize(800, 600); 
+    glutInitWindowPosition(100, 100); 
+    glutCreateWindow(" Basic 3D Geometric Operations"); 
+    init(); 
+    glutDisplayFunc(display); 
+    glutReshapeFunc(reshape); 
+    glutKeyboardFunc(keyboard); 
+    glutSpecialFunc(specialKeys); 
+    glutMainLoop();
+    return 0;
+}
