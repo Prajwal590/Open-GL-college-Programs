@@ -1,6 +1,6 @@
 #include <GL/glut.h>
-#include <stdio.h>   // For printf and scanf
-#include <stdlib.h>  // For abs function
+#include <stdio.h>   
+#include <stdlib.h> 
 void drawLine(int x0, int y0, int x1, int y1) {
     int dx = abs(x1 - x0);
     int dy = abs(y1 - y0);
